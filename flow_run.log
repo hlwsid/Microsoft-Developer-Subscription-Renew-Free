@@ -1,0 +1,36 @@
+2025-07-09 11:35:32,991 - ERROR - Failed to retrieve access token. Response from server: {
+  "error": "invalid_request",
+  "error_description": "AADSTS900144: The request body must contain the following parameter: 'refresh_token'. Trace ID: 6dc2558c-65bd-4fe2-8e94-f7521e220300 Correlation ID: 2b8ef67e-bacf-4f59-8772-e58c4f20e1bc Timestamp: 2025-07-09 11:35:32Z",
+  "error_codes": [
+    900144
+  ],
+  "timestamp": "2025-07-09 11:35:32Z",
+  "trace_id": "6dc2558c-65bd-4fe2-8e94-f7521e220300",
+  "correlation_id": "2b8ef67e-bacf-4f59-8772-e58c4f20e1bc",
+  "error_uri": "https://login.microsoftonline.com/error?code=900144"
+}
+2025-07-09 11:35:32,991 - ERROR - Error obtaining access token: 'access_token not found in the response.'
+2025-07-09 11:35:33,009 - ERROR - Failed to retrieve access token. Response from server: {
+  "error": "invalid_request",
+  "error_description": "AADSTS900144: The request body must contain the following parameter: 'refresh_token'. Trace ID: 89ddcffb-770c-421a-bc0c-02fda38f2a00 Correlation ID: be655496-db25-4149-bcd2-ff52879e5872 Timestamp: 2025-07-09 11:35:33Z",
+  "error_codes": [
+    900144
+  ],
+  "timestamp": "2025-07-09 11:35:33Z",
+  "trace_id": "89ddcffb-770c-421a-bc0c-02fda38f2a00",
+  "correlation_id": "be655496-db25-4149-bcd2-ff52879e5872",
+  "error_uri": "https://login.microsoftonline.com/error?code=900144"
+}
+2025-07-09 11:35:33,009 - ERROR - Error obtaining access token: 'access_token not found in the response.'
+2025-07-09 11:35:33,053 - ERROR - Failed to retrieve access token. Response from server: {
+  "error": "invalid_request",
+  "error_description": "AADSTS900144: The request body must contain the following parameter: 'refresh_token'. Trace ID: 994857bc-1d37-4792-b4b7-b9e3141a6800 Correlation ID: 00c3ac4b-7bed-4143-8e3c-36269335fb63 Timestamp: 2025-07-09 11:35:33Z",
+  "error_codes": [
+    900144
+  ],
+  "timestamp": "2025-07-09 11:35:33Z",
+  "trace_id": "994857bc-1d37-4792-b4b7-b9e3141a6800",
+  "correlation_id": "00c3ac4b-7bed-4143-8e3c-36269335fb63",
+  "error_uri": "https://login.microsoftonline.com/error?code=900144"
+}
+2025-07-09 11:35:33,054 - ERROR - Error obtaining access token: 'access_token not found in the response.'
