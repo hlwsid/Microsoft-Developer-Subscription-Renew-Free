@@ -2,6 +2,7 @@
 name: MSO_E5_Dev_AutoRenew
 
 on: 
+  workflow_dispatch:
   release:
     types: [published]
   push:
