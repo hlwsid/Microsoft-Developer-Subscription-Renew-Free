@@ -9,12 +9,6 @@ refresh_token = os.getenv("REFRESH_TOKEN")
 client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
 
-# Register the Azure app first and make sure the app has the following permissions:
-# files: Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
-# user: User.Read.All, User.ReadWrite.All, Directory.Read.All, Directory.ReadWrite.All
-# mail: Mail.Read, Mail.ReadWrite, MailboxSettings.Read, MailboxSettings.ReadWrite
-# After registration, you must click "Grant admin consent" for the permissions.
-
 calls = [
     'https://graph.microsoft.com/v1.0/me/drive/root',
     'https://graph.microsoft.com/v1.0/me/drive',
@@ -44,18 +38,27 @@ def get_access_token(refresh_token, client_id, client_secret):
         'grant_type': 'refresh_token',
         'refresh_token': refresh_token,
         'client_id': client_id,
-        'client_secret': client_secret,
+        client_secret,
         'redirect_uri': 'http://localhost:53682/'
     }
     response = requests.post('https://login.microsoftonline.com/common/oauth2/v2.0/token', data=data, headers=headers)
     jsontxt = json.loads(response.text)
+    if 'access_token' not in jsontxt:
+        print("Failed to retrieve access token. Response from server:")
+        print(json.dumps(jsontxt, indent=2))
+        raise KeyError("access_token not found in the response.")
     access_token = jsontxt['access_token']
     return access_token
 
 def main():
     random.shuffle(calls)
     endpoints = calls[random.randint(0, 10)::]
-    access_token = get_access_token(refresh_token, client_id, client_secret)
+    try:
+        access_token = get_access_token(refresh_token, client_id, client_secret)
+    except Exception as e:
+        print(f"Error obtaining access token: {e}")
+        return
+
     session = requests.Session()
     session.headers.update({
         'Authorization': access_token,
