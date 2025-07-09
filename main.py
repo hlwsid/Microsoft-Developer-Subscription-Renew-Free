@@ -1,27 +1,18 @@
-import os
 import requests
 import json
 import time
-import random
-import logging
-import sys
+import random 
 
-# Configure logging
-logging.basicConfig(
-    filename='flow_run.log',
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
+# Register the azure app first and make sure the app has the following permissions:
+# files: Files.Read.All、Files.ReadWrite.All、Sites.Read.All、Sites.ReadWrite.All
+# user: User.Read.All、User.ReadWrite.All、Directory.Read.All、Directory.ReadWrite.All
+# mail: Mail.Read、Mail.ReadWrite、MailboxSettings.Read、MailboxSettings.ReadWrite
+# After registration, you must click on behalf of xxx to grant administrator consent, otherwise outlook api cannot be called
 
-# Load credentials from environment variables
-refresh_token = os.getenv("REFRESH_TOKEN")
-client_id = os.getenv("CLIENT_ID")
-client_secret = os.getenv("CLIENT_SECRET")
 
-# Validate environment variables
-if not refresh_token or not client_id or not client_secret:
-    logging.error("Missing one or more required environment variables: REFRESH_TOKEN, CLIENT_ID, CLIENT_SECRET")
-    sys.exit(1)
+
+
+
 
 calls = [
     'https://graph.microsoft.com/v1.0/me/drive/root',
@@ -32,7 +23,7 @@ calls = [
     'https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messageRules',
     'https://graph.microsoft.com/v1.0/me/drive/root/children',
     'https://api.powerbi.com/v1.0/myorg/apps',
-    'https://graph.microsoft.com/v1.0/me/mailFolders/Inbox/messages/delta',
+    'https://graph.microsoft.com/v1.0/me/mailFolders',
     'https://graph.microsoft.com/v1.0/me/outlook/masterCategories',
     'https://graph.microsoft.com/v1.0/applications?$count=true',
     'https://graph.microsoft.com/v1.0/me/?$select=displayName,skills',
@@ -43,6 +34,7 @@ calls = [
     'https://graph.microsoft.com/v1.0/sites/root',
     'https://graph.microsoft.com/v1.0/sites/root/drives'
 ]
+
 
 def get_access_token(refresh_token, client_id, client_secret):
     headers = {
@@ -55,24 +47,16 @@ def get_access_token(refresh_token, client_id, client_secret):
         'client_secret': client_secret,
         'redirect_uri': 'http://localhost:53682/'
     }
-    response = requests.post('https://login.microsoftonline.com/common/oauth2/v2.0/token', data=data, headers=headers)
-    jsontxt = json.loads(response.text)
-    if 'access_token' not in jsontxt:
-        logging.error("Failed to retrieve access token. Response from server: %s", json.dumps(jsontxt, indent=2))
-        raise KeyError("access_token not found in the response.")
+    html = requests.post('https://login.microsoftonline.com/common/oauth2/v2.0/token', data=data, headers=headers)
+    jsontxt = json.loads(html.text)
+    refresh_token = jsontxt['refresh_token']
     access_token = jsontxt['access_token']
     return access_token
 
 def main():
     random.shuffle(calls)
-    endpoints = calls[random.randint(0, 10)::]
-    try:
-        access_token = get_access_token(refresh_token, client_id, client_secret)
-        logging.info("Access token successfully retrieved.")
-    except Exception as e:
-        logging.error("Error obtaining access token: %s", str(e))
-        return
-
+    endpoints = calls[random.randint(0,10)::]
+    access_token = get_access_token(refresh_token, client_id, client_secret)
     session = requests.Session()
     session.headers.update({
         'Authorization': access_token,
@@ -84,15 +68,13 @@ def main():
             response = session.get(endpoint)
             if response.status_code == 200:
                 num += 1
-                logging.info("Call %d successful: %s", num, endpoint)
-            else:
-                logging.warning("Call failed with status %d: %s", response.status_code, endpoint)
+                print(f'{num}th Call successful')
         except requests.exceptions.RequestException as e:
-            logging.error("Request exception for endpoint %s: %s", endpoint, str(e))
+            print(e)
             pass
     localtime = time.asctime(time.localtime(time.time()))
-    logging.info("End of run: %s", localtime)
-    logging.info("Number of calls made: %d", len(endpoints))
+    print('The end of this run is :', localtime)
+    print('Number of calls is :', str(len(endpoints)))
 
 for _ in range(3):
     main()
