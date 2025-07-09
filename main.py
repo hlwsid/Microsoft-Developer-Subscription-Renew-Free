@@ -4,6 +4,7 @@ import json
 import time
 import random
 import logging
+import sys
 
 # Configure logging
 logging.basicConfig(
@@ -16,6 +17,11 @@ logging.basicConfig(
 refresh_token = os.getenv("REFRESH_TOKEN")
 client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
+
+# Validate environment variables
+if not refresh_token or not client_id or not client_secret:
+    logging.error("Missing one or more required environment variables: REFRESH_TOKEN, CLIENT_ID, CLIENT_SECRET")
+    sys.exit(1)
 
 calls = [
     'https://graph.microsoft.com/v1.0/me/drive/root',
