@@ -4,7 +4,6 @@ import json
 import time
 import random
 
-# Read secrets from environment variables
 refresh_token = os.getenv("REFRESH_TOKEN")
 client_id = os.getenv("CONFIG_ID")
 client_secret = os.getenv("CONFIG_KEY")
@@ -19,8 +18,7 @@ calls = [
     'https://graph.microsoft.com/v1.0/me/drive/root/children',
     'https://api.powerbi.com/v1.0/myorg/apps',
     'https://graph.microsoft.com/v1.0/me/mailFolders',
-    'https://graph.microsoft.com/v1.0/me/outlook/masterCategories',
-    'https://graph.microsoft.com/v1.0/applications?$count=true',
+   count=true',
     'https://graph.microsoft.com/v1.0/me/?$select=displayName,skills',
     'https://graph.microsoft.com/v1.0/me/mailFolders/Inbox/messages/delta',
     'https://graph.microsoft.com/beta/me/outlook/masterCategories',
@@ -42,10 +40,14 @@ def get_access_token(refresh_token, client_id, client_secret):
     jsontxt = response.json()
     if 'access_token' not in jsontxt:
         raise Exception(f"Failed to refresh token: {jsontxt}")
-    return jsontxt['access_token'], jsontxt.get('refresh_token')
+    # Save new refresh token if provided
+    if 'refresh_token' in jsontxt:
+        with open("Secret.txt", "w") as f:
+            f.write(jsontxt['refresh_token'])
+    return jsontxt['access_token']
 
 def main():
-    access_token, new_refresh_token = get_access_token(refresh_token, client_id, client_secret)
+    access_token = get_access_token(refresh_token, client_id, client_secret)
     session = requests.Session()
     session.headers.update({
         'Authorization': f'Bearer {access_token}',
