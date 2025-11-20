@@ -18,7 +18,7 @@ calls = [
     'https://graph.microsoft.com/v1.0/me/drive/root/children',
     'https://api.powerbi.com/v1.0/myorg/apps',
     'https://graph.microsoft.com/v1.0/me/mailFolders',
-   count=true',
+   1.0/applications?$count=true',
     'https://graph.microsoft.com/v1.0/me/?$select=displayName,skills',
     'https://graph.microsoft.com/v1.0/me/mailFolders/Inbox/messages/delta',
     'https://graph.microsoft.com/beta/me/outlook/masterCategories',
