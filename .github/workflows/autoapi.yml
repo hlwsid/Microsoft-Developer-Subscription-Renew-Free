@@ -47,8 +47,8 @@ jobs:
         if: success()
         run: |
           if [ -f Secret.txt ]; then
-            git config --global user.email "hlwsid@gmail.com"
-            git config --global user.name "Sid"
+            git config --global user.email "rahulfacebookinsta0@gmail.com"
+            git config --global user.name "Rahul"
             git add Secret.txt
             git commit -m "Update new refresh token with MSO_E5_Dev_AutoRenew"
           fi
