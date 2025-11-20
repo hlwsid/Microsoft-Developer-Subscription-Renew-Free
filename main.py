@@ -8,6 +8,7 @@ refresh_token = os.getenv("REFRESH_TOKEN")
 client_id = os.getenv("CONFIG_ID")
 client_secret = os.getenv("CONFIG_KEY")
 
+
 calls = [
     'https://graph.microsoft.com/v1.0/me/drive/root',
     'https://graph.microsoft.com/v1.0/me/drive',
@@ -18,7 +19,7 @@ calls = [
     'https://graph.microsoft.com/v1.0/me/drive/root/children',
     'https://api.powerbi.com/v1.0/myorg/apps',
     'https://graph.microsoft.com/v1.0/me/mailFolders',
-   1.0/applications?$count=true',
+    'https://graph.microsoft.com/v1.0/applications?$count=true',
     'https://graph.microsoft.com/v1.0/me/?$select=displayName,skills',
     'https://graph.microsoft.com/v1.0/me/mailFolders/Inbox/messages/delta',
     'https://graph.microsoft.com/beta/me/outlook/masterCategories',
